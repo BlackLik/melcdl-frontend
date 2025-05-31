@@ -10,4 +10,4 @@ const LoaderWrapper = () => {
   );
 };
 
-export default LoaderWrapper
+export default LoaderWrapper;
