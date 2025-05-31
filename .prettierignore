@@ -1,0 +1,15 @@
+# node_modules и сборка
+node_modules
+dist
+build
+
+# Конфигурационные файлы
+.git
+.husky
+
+# Логи
+*.log
+
+# Артефакты IDE (если есть)
+.vscode
+.idea

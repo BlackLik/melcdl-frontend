@@ -1,0 +1,11 @@
+services:
+  front:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.local
+    ports:
+      - '3000:5173'
+    volumes:
+      - ../src:/app/src
+    env_file:
+      - ../config/.env.local

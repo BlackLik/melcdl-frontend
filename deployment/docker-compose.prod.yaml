@@ -1,0 +1,10 @@
+services:
+  front:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.prod
+    ports:
+      - '127.0.0.1:3000:80'
+    env_file:
+      - ../config/.env.prod
+    restart: unless-stopped
