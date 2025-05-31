@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import Loader from '@/components/Loader';
+import Loader from './Loader';
 import { Outlet } from 'react-router';
 
 const LoaderWrapper = () => {
