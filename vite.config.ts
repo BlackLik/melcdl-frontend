@@ -6,6 +6,7 @@ import path from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  envDir: path.resolve(__dirname, 'config'),
   resolve: {
     alias: {
       // Теперь при импорте "@/..." Vite будет искать папку "src"
