@@ -12,6 +12,7 @@ interface AuthState {
   refresh: () => Promise<string>;
   check: (token: string) => Promise<boolean>;
   load: () => { accessToken: string | null; refreshToken: string | null };
+  registration: (login: string, password: string, passwordRepeated: string, isConfirm: boolean) => Promise<void>;
 }
 
 const keyAccessTokenStorage = 'accessToken';
@@ -148,5 +149,40 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set(data);
     return data;
+  },
+  registration: async (login: string, password: string, passwordRepeated: string, isConfirm: boolean) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${config.VITE_API_URL}/api/v1/auth/register/`, {
+        login: login,
+        password: password,
+        password_repeated: passwordRepeated,
+        is_confirm: isConfirm,
+      });
+      if (response.status >= 300) {
+        throw Error('Error http status');
+      }
+      set({ isLoading: false, error: null });
+    } catch (err: any) {
+      let message = 'Не удалось выполнить регистрацию';
+
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 409) {
+          message = 'Логин уже существует';
+        } else if (err.response?.data?.detail) {
+          message = err.response.data.error;
+        } else {
+          message = err.response?.statusText || message;
+        }
+      } else if (err instanceof Error) {
+        message = err.message;
+      }
+      set({
+        isLoading: false,
+        error: message,
+      });
+
+      throw Error(message);
+    }
   },
 }));
