@@ -30,6 +30,14 @@ const Header = ({ className, children, ...props }: React.ComponentProps<'header'
             </NavigationMenuLink>
           </NavigationMenuItem>
 
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link to="/new/" className="px-3 py-2 rounded-md text-gray-700 hover:bg-gray-200">
+                Загрузить
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
           {/* Кнопка “Выйти” */}
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
