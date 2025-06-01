@@ -4,6 +4,7 @@ import LoaderWrapper from '@/components/loader/LoaderWrapper';
 
 const HomePage = lazy(() => import('@/components/pages/HomePage'));
 const NotFoundPage = lazy(() => import('@/components/pages/NotFoundPage'));
+const LoginPage = lazy(() => import('@/components/pages/LoginPage'));
 
 export const router = createBrowserRouter(
   [
@@ -12,7 +13,7 @@ export const router = createBrowserRouter(
       Component: LoaderWrapper,
       children: [
         { index: true, Component: HomePage },
-        { path: 'login/', Component: HomePage },
+        { path: 'login/', Component: LoginPage },
         { path: 'registration/', Component: HomePage },
         {
           path: 'results/',
