@@ -9,9 +9,15 @@ interface AuthState {
   error: string | null;
   login: (login: string, password: string) => Promise<void>;
   logout: () => void;
+  refresh: () => Promise<string>;
+  check: (token: string) => Promise<boolean>;
+  load: () => { accessToken: string | null; refreshToken: string | null };
 }
 
-export const useAuthStore = create<AuthState>(set => ({
+const keyAccessTokenStorage = 'accessToken';
+const keyRefreshTokenStorage = 'refreshToken';
+
+export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
   refreshToken: null,
   isLoading: false,
@@ -42,8 +48,8 @@ export const useAuthStore = create<AuthState>(set => ({
       });
 
       // При необходимости, например, сохраняем в localStorage:
-      localStorage.setItem('accessToken', access);
-      localStorage.setItem('refreshToken', refresh);
+      localStorage.setItem(keyAccessTokenStorage, access);
+      localStorage.setItem(keyRefreshTokenStorage, refresh);
     } catch (err: any) {
       console.error('Ошибка при логине:', err);
 
@@ -76,7 +82,71 @@ export const useAuthStore = create<AuthState>(set => ({
 
   logout: () => {
     set({ accessToken: null, refreshToken: null });
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem(keyAccessTokenStorage);
+    localStorage.removeItem(keyRefreshTokenStorage);
+  },
+
+  refresh: async () => {
+    const { refreshToken } = get();
+    if (!refreshToken) {
+      throw new Error('Нет refreshToken для обновления');
+    }
+
+    try {
+      // Отправляем запрос на refresh-эндпоинт
+      const response = await axios.post(`${config.VITE_API_URL}/api/v1/auth/refresh/`, {
+        token: refreshToken,
+      });
+
+      const { access } = response.data;
+      if (!access) {
+        throw new Error('В ответе сервера отсутствуют новые токены');
+      }
+
+      // Обновляем store и localStorage
+      set({
+        accessToken: access,
+        error: null,
+      });
+      localStorage.setItem(keyAccessTokenStorage, access);
+
+      return access;
+    } catch (err: any) {
+      if (!axios.isAxiosError(err)) {
+        console.error('Ошибка при refresh токена:', err);
+      }
+      // Если refresh тоже не прошёл, выкидываем пользователя (логаут)
+      set({ accessToken: null, refreshToken: null, error: 'Сессия истекла' });
+      localStorage.removeItem(keyAccessTokenStorage);
+      localStorage.removeItem(keyRefreshTokenStorage);
+      throw new Error('Не удалось обновить токен, пожалуйста, авторизуйтесь снова');
+    }
+  },
+
+  check: async token => {
+    try {
+      const response = await axios.post(`${config.VITE_API_URL}/api/v1/auth/verify/`, {
+        token: token,
+      });
+      const { verify } = response.data;
+
+      return verify;
+    } catch (err: any) {
+      console.error('Ошибка при refresh токена:', err);
+      throw new Error('Не удалось проверить токен');
+    }
+  },
+
+  load: () => {
+    const refreshToken = localStorage.getItem(keyRefreshTokenStorage);
+    const accessToken = localStorage.getItem(keyAccessTokenStorage);
+
+    const data = {
+      refreshToken,
+      accessToken,
+    };
+
+    set(data);
+    return data;
   },
 }));
