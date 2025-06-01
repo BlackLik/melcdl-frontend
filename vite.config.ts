@@ -9,8 +9,7 @@ export default defineConfig({
   envDir: path.resolve(__dirname, 'config'),
   resolve: {
     alias: {
-      // Теперь при импорте "@/..." Vite будет искать папку "src"
-      '@': path.resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });
