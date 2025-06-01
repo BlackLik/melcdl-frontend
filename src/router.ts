@@ -7,35 +7,49 @@ import UnAuthMiddleware from '@/components/middlewares/UnAuthMiddleware';
 const HomePage = lazy(() => import('@/components/pages/HomePage'));
 const NotFoundPage = lazy(() => import('@/components/pages/NotFoundPage'));
 const LoginPage = lazy(() => import('@/components/pages/LoginPage'));
+const RegistrationPage = lazy(() => import('@/components/pages/RegistrationPage'));
 
 export const router = createBrowserRouter(
   [
     {
       path: '/',
-      Component: LoaderWrapper,
       children: [
         {
-          Component: AuthMiddleware,
+          Component: UnAuthMiddleware,
           children: [
-            { index: true, path: '/', Component: HomePage },
             {
-              path: 'results/',
+              Component: LoaderWrapper,
               children: [
-                { index: true, Component: HomePage },
-                { path: 'new/', Component: HomePage },
-                { path: ':id/', Component: HomePage },
+                { path: 'login/', Component: LoginPage },
+                { path: 'registration/', Component: RegistrationPage },
               ],
             },
           ],
         },
         {
-          Component: UnAuthMiddleware,
+          Component: AuthMiddleware,
           children: [
-            { path: 'login/', Component: LoginPage },
-            { path: 'registration/', Component: HomePage },
+            {
+              path: '/',
+              Component: LoaderWrapper,
+              children: [
+                { index: true, Component: HomePage },
+                {
+                  path: 'results/',
+                  children: [
+                    { index: true, Component: HomePage },
+                    { path: 'new/', Component: HomePage },
+                    { path: ':id/', Component: HomePage },
+                  ],
+                },
+              ],
+            },
           ],
         },
-        { path: '*', Component: NotFoundPage },
+        {
+          Component: LoaderWrapper,
+          children: [{ path: '*', Component: NotFoundPage }],
+        },
       ],
     },
   ],

@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/store/authStore';
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 const AuthMiddleware = () => {
@@ -7,7 +7,7 @@ const AuthMiddleware = () => {
 
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const func = async (refreshToken: string | null, accessToken: string | null) => {
       if (accessToken && (await check(accessToken))) {
         return;

@@ -34,7 +34,7 @@ const Header = ({ className, children, ...props }: React.ComponentProps<'header'
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
-                to="/login"
+                to="/login/"
                 className="px-3 py-2 rounded-md text-gray-700 hover:bg-gray-200"
                 onClick={() => logout()}
               >
