@@ -22,6 +22,7 @@ export const router = createBrowserRouter(
               path: 'results/',
               children: [
                 { index: true, Component: HomePage },
+                { path: 'new/', Component: HomePage },
                 { path: ':id/', Component: HomePage },
               ],
             },

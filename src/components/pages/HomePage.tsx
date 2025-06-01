@@ -1,5 +1,11 @@
+import Wrapper from '@/components/layout/Wrapper';
+
 const Home = () => {
-  return <div className="text-3xl font-bold underline">Hello world!</div>;
+  return (
+    <Wrapper>
+      <div className="text-3xl font-bold underline">Hello world!</div>
+    </Wrapper>
+  );
 };
 
 export default Home;
