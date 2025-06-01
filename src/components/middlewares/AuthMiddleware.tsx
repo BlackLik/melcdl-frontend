@@ -36,7 +36,7 @@ const AuthMiddleware = () => {
     func(refreshToken, accessToken)
       .then()
       .catch(err => console.error(err));
-  }, []);
+  }, [refresh, check, load, logout]);
 
   return <Outlet />;
 };

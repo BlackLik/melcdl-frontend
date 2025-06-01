@@ -11,7 +11,7 @@ lint:
 	npm run lint
 
 .PHONY: run
-run: build up clean
+run: up clean
 
 .PHONY: build
 build:
@@ -19,7 +19,7 @@ build:
 
 .PHONY: up
 up:
-	${DOCKER} up --force-recreate -d
+	${DOCKER} up --build --force-recreate -d
 
 .PHONY: clean
 clean:

@@ -52,7 +52,7 @@ const convert = (data: BasePaginatorSnakeSchema<TaskItemSchema>): BasePaginatorS
     currentPage: data.current_page,
   };
 
-  for (let elem of data.data) {
+  for (const elem of data.data) {
     newData.data.push({
       id: elem.id,
       createdOn: new Date(elem.created_on),

@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router';
 import { useAuthStore } from '@/store/authStore';
 
-const Header = ({ className, children, ...props }: React.ComponentProps<'header'>) => {
+const Header = ({ className, ...props }: React.ComponentProps<'header'>) => {
   const { logout } = useAuthStore();
 
   return (

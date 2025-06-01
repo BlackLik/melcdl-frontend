@@ -22,8 +22,6 @@ interface UploadFormValues {
   file: FileList | null;
 }
 
-const id = 'e823eb80-7e7a-4395-af12-5c416a5151a4';
-
 interface Model {
   id: string;
   name: string;

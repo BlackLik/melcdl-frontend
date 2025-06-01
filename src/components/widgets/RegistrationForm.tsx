@@ -53,7 +53,7 @@ export const RegistrationForm: React.FC = () => {
 
     try {
       await registration(data.login, data.password, data.passwordRepeated, data.isConfirm);
-    } catch (err: any) {
+    } catch {
       setIsLoading(false);
       return;
     }
@@ -61,7 +61,7 @@ export const RegistrationForm: React.FC = () => {
     try {
       await login(data.login, data.password);
       navigate('/');
-    } catch (err: any) {}
+    } catch {}
 
     setIsLoading(false);
   };
