@@ -34,14 +34,8 @@ export const router = createBrowserRouter(
               Component: LoaderWrapper,
               children: [
                 { index: true, Component: HomePage },
-                {
-                  path: 'results/',
-                  children: [
-                    { index: true, Component: HomePage },
-                    { path: 'new/', Component: HomePage },
-                    { path: ':id/', Component: HomePage },
-                  ],
-                },
+                { path: ':id/', Component: HomePage },
+                { path: 'new/', Component: HomePage },
               ],
             },
           ],
