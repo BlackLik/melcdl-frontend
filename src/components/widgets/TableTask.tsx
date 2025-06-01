@@ -114,7 +114,7 @@ const TableTask = ({ currentPage, batchSize }: Props) => {
   }
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full md:col-start-2 mx-auto">
       <div className="overflow-auto rounded-md border">
         <Table>
           <TableHeader>
